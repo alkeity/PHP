@@ -1,0 +1,14 @@
+.container-form {
+    margin: auto;
+    margin-top: 20px;
+    width: 50%;
+}
+
+th:nth-of-type(6),td:nth-of-type(6),th:nth-of-type(7),td:nth-of-type(7) {
+    color: red;
+}
+tr:first-child th{
+    background-color:#F6F6F6;
+    text-align:center;
+    font-size: 15px;
+}
