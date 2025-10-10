@@ -37,7 +37,7 @@
             <?php if(isset($message)):?>
                 <p><?php echo($message);?></p>
             <?php endif;?>
-            <form method="POST">
+            <form method="POST" enctype="multipart/form-data">
                 <label for="file">Select photo</label>
                 <input type="file" id="file" name="file" required>
                 <button type="submit">Upload</button>
