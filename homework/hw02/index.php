@@ -50,6 +50,19 @@
     <body>
         <?php if(isset($_SESSION['username'])) :?>
             <p>Welcome <?php echo $_SESSION['username']?></p>
+            <?php
+                $storage_path = "user-images.txt";
+                if (file_exists($storage_path)) {
+                    $imgs = file($storage_path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+                    foreach ($imgs as $img_data) {
+                        list($username, $img_path) = explode(":", $img_data);
+                        if ($username == $_SESSION['username']) {
+                            echo "<img src=\"$img_path\" alt=\"$username\">";
+                        }
+                    }
+                }
+             ?>
+            <img src="" alt="">
             <a href="logout.php">Logout</a>
         <?php else: ?>
         <div class="container">
