@@ -102,15 +102,18 @@ if (isset($_SESSION['username'])): ?>
         <?php
         // Логический блок: Получение изображений
         // Назначение: Извлекает пути к изображениям текущего пользователя из базы данных.
-        // SQL: SELECT image_path FROM user_images WHERE username = ? ORDER BY uploaded_at DESC
+        // SQL: SELECT image_path FROM Images WHERE username = ? ORDER BY uploaded_at DESC
         // Назначение SQL: Выбирает пути к изображениям для указанного пользователя, сортируя по времени загрузки (новые первыми).
         // Параметры SQL: ? - Плейсхолдер для имени пользователя.
         // Параметры PDO:
         //   prepare(): Подготавливает SQL-запрос.
         //   execute([$_SESSION['username']]): Связывает имя пользователя.
         //   fetchAll(PDO::FETCH_ASSOC): Возвращает массив ассоциативных массивов.
-        $stmt = $pdo->prepare("SELECT image_path FROM user_images WHERE username = ? ORDER BY uploaded_at DESC");
+        $stmt = $pdo->prepare("SELECT id FROM Users WHERE username = ?");
         $stmt->execute([$_SESSION['username']]);
+        $userId = $stmt->fetch(); // TODO fix error here
+        $stmt = $pdo->prepare("SELECT image_path FROM Images WHERE user_id = ? ORDER BY uploaded_at DESC");
+        $stmt->execute($userId);
         $images = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         // Проверка наличия изображений

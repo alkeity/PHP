@@ -59,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             //   prepare(): Подготавливает запрос.
             //   execute([$username]): Связывает имя пользователя.
             //   fetch(): Возвращает ассоциативный массив или false.
-            $stmt = $pdo->prepare("SELECT password FROM users WHERE username = ?");
+            $stmt = $pdo->prepare("SELECT password FROM Users WHERE username = ?");
             $stmt->execute([$username]);
             $user = $stmt->fetch();
             // Проверка пароля: Сравнивает введенный пароль с хэшем.

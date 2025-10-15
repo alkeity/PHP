@@ -43,11 +43,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Параметры: preg_match('/^[a-zA-Z0-9]+$/', $username).
         if (!preg_match('/^[a-zA-Z0-9]+$/', $username)) {
             $error = "Имя пользователя должно содержать только буквы и цифры.";
-        else if (!preg_match(
-                '/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/'
+        }
+        elseif (!preg_match(
+                '/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/',
+                $email
         )) {
             $error = "Неподходящий формат записи для e-mail адреса";
-        }
         } elseif (empty($username) || empty($email) || empty($password)) {
             $error = "Заполните все поля.";
         } else {
@@ -56,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Назначение SQL: Подсчитывает количество записей с указанным username или email.
             // Параметры SQL: ? - Плейсхолдер для username.
             // Параметры PDO: prepare(), execute([$username]), fetchColumn().
-            $stmt = $pdo->prepare("SELECT COUNT(*) FROM users WHERE username = ? OR email = ?");
+            $stmt = $pdo->prepare("SELECT COUNT(*) FROM Users WHERE username = ? OR email = ?");
             $stmt->execute([$username, $email]);
             if ($stmt->fetchColumn() > 0) {
                 $error = "Указанные имя пользователя или e-mail уже заняты другим пользователем.";
@@ -69,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 // Назначение SQL: Добавляет нового пользователя с именем и хэшем пароля.
                 // Параметры SQL: ? - Плейсхолдеры для username и password.
                 // Параметры PDO: prepare(), execute([$username, $passwordHash]).
-                $stmt = $pdo->prepare("INSERT INTO users (username, email, password) VALUES (?, ?, ?)");
+                $stmt = $pdo->prepare("INSERT INTO Users (username, email, password) VALUES (?, ?, ?)");
                 $stmt->execute([$username, $email, $passwordHash]);
                 // Перенаправление: На страницу входа.
                 header("Location: login.php");
